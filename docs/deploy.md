@@ -54,7 +54,7 @@ Open <https://github.com/settings/pages_verified_domains>, add
 
 | Type | Name | Content | Proxy |
 |---|---|---|---|
-| TXT | `_github-pages-challenge-olavostauros` | `<!-- VERIFICATION_TXT -->` | DNS only |
+| TXT | `_github-pages-challenge-olavostauros` | `6a49785cd8a688e5f05460097a70de` | DNS only |
 
 Back on GitHub, press **Verify**. Keep the record afterwards; GitHub
 re-checks it.

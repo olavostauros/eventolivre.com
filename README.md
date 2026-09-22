@@ -6,10 +6,9 @@ GitHub Pages.
 
 Start with `MISSION.md`, then `AGENTS.md`.
 
-Status: deployed from `main` by GitHub Actions. Reachable at
-<https://olavostauros.github.io/eventolivre.com/> (assets are root-relative,
-so only the HTML is a smoke check there). `eventolivre.com` is waiting on
-the owner's DNS change in `docs/deploy.md`.
+Status: live at <https://eventolivre.com> (pt-BR) and <https://eventolivre.com/en/>,
+deployed from `main` by GitHub Actions. HTTPS is enforced; `www` redirects
+to the apex.
 
 ```
 bun install

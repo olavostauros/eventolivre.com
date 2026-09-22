@@ -44,6 +44,12 @@ Other facts that shape the setup:
 
 ## Owner runbook
 
+**Done 2026-09-22.** The owner authorised the agent to make these changes
+through the Cloudflare dashboard in the owner's browser session. The old
+apex `A` (`192.64.119.113`, proxied) was deleted and `www` was repointed;
+the mail records (`privateemail.com`) were left untouched. The custom domain,
+certificate and HTTPS enforcement followed the same day.
+
 Everything below is in the Cloudflare dashboard, zone `eventolivre.com`,
 **DNS → Records**. Every record's proxy status must be **DNS only**.
 

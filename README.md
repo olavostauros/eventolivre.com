@@ -6,7 +6,10 @@ GitHub Pages.
 
 Start with `MISSION.md`, then `AGENTS.md`.
 
-Status: scaffold. Nothing deployed yet.
+Status: deployed from `main` by GitHub Actions. Reachable at
+<https://olavostauros.github.io/eventolivre.com/> (assets are root-relative,
+so only the HTML is a smoke check there). `eventolivre.com` is waiting on
+the owner's DNS change in `docs/deploy.md`.
 
 ```
 bun install

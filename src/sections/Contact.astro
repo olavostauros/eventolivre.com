@@ -1,0 +1,18 @@
+---
+import type { Copy } from "../copy/index.ts";
+import { Link, Text } from "../islands/dsx.ts";
+
+interface Props {
+  readonly copy: Copy;
+}
+const { copy } = Astro.props;
+---
+
+<section id="contact" class="scroll-mt-16 border-t border-border">
+  <div class="mx-auto flex max-w-6xl flex-col gap-stack-lg px-gutter py-16 sm:py-24">
+    <Text variant="title" as="h2" className="text-balance">{copy.contact.title}</Text>
+    <Text variant="body" tone="muted" className="max-w-2xl">{copy.contact.lede}</Text>
+    <Link href={`mailto:${copy.contact.email}`} className="type-subheading">{copy.contact.cta}</Link>
+    <Text variant="body-sm" tone="subtle">{copy.contact.email}</Text>
+  </div>
+</section>

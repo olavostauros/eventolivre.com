@@ -1,0 +1,3 @@
+<!-- A brand-colour square, no glyph: the mark is not drawn yet (design system 0002, semiotics).
+     Colour is brand-600 from the design system; regenerate when 0001 changes. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" rx="7" fill="#007890"/></svg>

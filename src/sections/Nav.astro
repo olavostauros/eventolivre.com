@@ -1,0 +1,57 @@
+---
+import { type Copy, type Locale, otherLocale, pathFor } from "../copy/index.ts";
+import Wordmark from "../components/Wordmark.astro";
+import { ThemeToggle } from "../islands/ThemeToggle/index.ts";
+import { Link } from "../islands/dsx.ts";
+
+interface Props {
+  readonly locale: Locale;
+  readonly copy: Copy;
+}
+const { locale, copy } = Astro.props;
+const other = otherLocale(locale);
+const items = [
+  { href: "#producers", label: copy.nav.producers },
+  { href: "#attendees", label: copy.nav.attendees },
+  { href: "#usher", label: copy.nav.usher },
+  { href: "#contact", label: copy.nav.contact },
+];
+---
+
+<a
+  href="#main"
+  class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:rounded-control focus:bg-surface focus:px-inset-md focus:py-inset-sm focus:text-fg focus:outline-2 focus:outline-ring"
+  >{copy.nav.skipToContent}</a
+>
+<header class="sticky top-0 z-40 border-b border-border bg-canvas/90 backdrop-blur">
+  <nav
+    class="mx-auto flex max-w-6xl items-center justify-between gap-stack-md px-gutter py-inset-sm"
+    aria-label={copy.meta.title}
+  >
+    <a href={pathFor(locale)} class="rounded-xs outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring">
+      <Wordmark text={copy.footer.company} />
+    </a>
+    <ul class="hidden items-center gap-stack-lg sm:flex" role="list">
+      {
+        items.map((item) => (
+          <li>
+            <Link href={item.href} tone="inherit" underline="hover" className="type-label">
+              {item.label}
+            </Link>
+          </li>
+        ))
+      }
+    </ul>
+    <div class="flex items-center gap-stack-sm">
+      <Link href={pathFor(other)} hrefLang={other} lang={other} tone="inherit" underline="hover" className="type-label">
+        {copy.nav.otherLanguage}
+      </Link>
+      <ThemeToggle
+        client:idle
+        label={copy.nav.themeLabel}
+        toLight={copy.nav.themeToLight}
+        toDark={copy.nav.themeToDark}
+      />
+    </div>
+  </nav>
+</header>

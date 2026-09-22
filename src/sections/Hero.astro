@@ -1,0 +1,19 @@
+---
+import type { Copy } from "../copy/index.ts";
+import { Link, Text } from "../islands/dsx.ts";
+
+interface Props {
+  readonly copy: Copy;
+}
+const { copy } = Astro.props;
+---
+
+<section class="mx-auto flex max-w-6xl flex-col gap-stack-lg px-gutter py-16 sm:py-24">
+  <Text variant="overline" tone="brand">{copy.hero.overline}</Text>
+  <Text variant="display-xl" as="h1" className="max-w-4xl text-balance">{copy.hero.title}</Text>
+  <Text variant="body" tone="muted" className="max-w-2xl text-lg">{copy.hero.lede}</Text>
+  <div class="flex flex-wrap gap-stack-lg pt-inset-sm">
+    <Link href="#producers" className="type-subheading">{copy.hero.primaryCta}</Link>
+    <Link href="#attendees" className="type-subheading">{copy.hero.secondaryCta}</Link>
+  </div>
+</section>

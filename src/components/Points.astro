@@ -1,0 +1,24 @@
+---
+import type { Point } from "../copy/index.ts";
+import { Text } from "../islands/dsx.ts";
+
+interface Props {
+  readonly points: readonly Point[];
+}
+const { points } = Astro.props;
+---
+
+<ul class="grid gap-stack-lg sm:grid-cols-3" role="list">
+  {
+    points.map((point) => (
+      <li class="flex flex-col gap-stack-sm rounded-container border border-border bg-surface p-inset-lg elevation-1">
+        <Text variant="subheading" as="h3">
+          {point.title}
+        </Text>
+        <Text variant="body" tone="muted">
+          {point.body}
+        </Text>
+      </li>
+    ))
+  }
+</ul>

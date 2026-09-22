@@ -1,0 +1,17 @@
+---
+/* The wordmark is text in the display face until the design system ships a
+   Logo. Only design-system utilities are used, so it follows theme and register. */
+interface Props {
+  readonly text: string;
+  readonly size?: "sm" | "lg";
+}
+const { text, size = "sm" } = Astro.props;
+---
+
+<span
+  class:list={[
+    "font-display font-semibold tracking-tight text-fg",
+    size === "sm" ? "text-lg" : "text-2xl",
+  ]}
+  data-wordmark>{text}</span
+>

@@ -1,0 +1,48 @@
+---
+/* Document shell. Owns <html lang>, the register default, meta and hreflang.
+   The inline script must run before first paint and must read the same
+   localStorage key as src/islands/ThemeToggle, or the theme flashes. */
+import "../styles/global.css";
+import { type Copy, type Locale, locales, pathFor } from "../copy/index.ts";
+
+interface Props {
+  readonly locale: Locale;
+  readonly copy: Copy;
+}
+const { locale, copy } = Astro.props;
+const site = Astro.site ?? new URL("https://eventolivre.com");
+const canonical = new URL(pathFor(locale), site);
+const ogImage = new URL("/og.png", site);
+---
+
+<!doctype html>
+<html lang={locale} data-register="b2c">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{copy.meta.title}</title>
+    <meta name="description" content={copy.meta.description} />
+    <link rel="canonical" href={canonical} />
+    {locales.map((l) => <link rel="alternate" hreflang={l} href={new URL(pathFor(l), site)} />)}
+    <link rel="alternate" hreflang="x-default" href={new URL("/", site)} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={copy.meta.title} />
+    <meta property="og:title" content={copy.meta.title} />
+    <meta property="og:description" content={copy.meta.description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:locale" content={locale.replace("-", "_")} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="color-scheme" content="light dark" />
+    <script is:inline>
+      try {
+        const t = localStorage.getItem("theme");
+        if (t === "light" || t === "dark") document.documentElement.dataset.theme = t;
+      } catch {}
+    </script>
+  </head>
+  <body class="min-h-dvh bg-canvas text-fg font-sans antialiased">
+    <slot />
+  </body>
+</html>

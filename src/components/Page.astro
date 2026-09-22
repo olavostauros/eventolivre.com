@@ -1,0 +1,30 @@
+---
+/* The one page. Sections in reading order; nothing else decides the order. */
+import { type Locale, copy as dictionaries } from "../copy/index.ts";
+import Base from "../layouts/Base.astro";
+import Attendees from "../sections/Attendees.astro";
+import Contact from "../sections/Contact.astro";
+import Footer from "../sections/Footer.astro";
+import Hero from "../sections/Hero.astro";
+import Nav from "../sections/Nav.astro";
+import Producers from "../sections/Producers.astro";
+import Usher from "../sections/Usher.astro";
+
+interface Props {
+  readonly locale: Locale;
+}
+const { locale } = Astro.props;
+const copy = dictionaries[locale];
+---
+
+<Base locale={locale} copy={copy}>
+  <Nav locale={locale} copy={copy} />
+  <main id="main">
+    <Hero copy={copy} />
+    <Producers copy={copy} />
+    <Attendees copy={copy} />
+    <Usher copy={copy} />
+    <Contact copy={copy} />
+  </main>
+  <Footer locale={locale} copy={copy} />
+</Base>

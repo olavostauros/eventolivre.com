@@ -1,0 +1,24 @@
+---
+/* Set in the B2C register explicitly, so it stays B2C if the page default
+   ever changes. */
+import type { Copy } from "../copy/index.ts";
+import Points from "../components/Points.astro";
+import { Text } from "../islands/dsx.ts";
+
+interface Props {
+  readonly copy: Copy;
+}
+const { copy } = Astro.props;
+---
+
+<section id="attendees" data-register="b2c" class="scroll-mt-16 border-t border-border">
+  <div class="mx-auto flex max-w-6xl flex-col gap-stack-lg px-gutter py-16 sm:py-24">
+    <div class="flex flex-col gap-stack-sm">
+      <span class="h-1 w-12 rounded-full bg-accent-500" aria-hidden="true"></span>
+      <Text variant="overline" tone="muted">{copy.attendees.overline}</Text>
+      <Text variant="title" as="h2" className="max-w-3xl text-balance">{copy.attendees.title}</Text>
+      <Text variant="body" tone="muted" className="max-w-2xl">{copy.attendees.lede}</Text>
+    </div>
+    <Points points={copy.attendees.points} />
+  </div>
+</section>

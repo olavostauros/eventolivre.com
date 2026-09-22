@@ -1,0 +1,5 @@
+/* The only stylesheet. Tokens and utilities come from the design system.
+   Tailwind v4 skips node_modules when scanning for classes, so the package
+   is declared as a source; without that line its components lose their styles. */
+@import "@evento-livre/design-system/src/styles/index.css";
+@source "../../node_modules/@evento-livre/design-system/src";

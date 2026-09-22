@@ -1,0 +1,30 @@
+{
+  "name": "@evento-livre/site",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "typecheck": "astro check",
+    "test": "bun test",
+    "check": "bun run typecheck && bun run build && bun test"
+  },
+  "dependencies": {
+    "@astrojs/react": "^6",
+    "@evento-livre/design-system": "github:olavostauros/evento-livre-design-system#ff6b62ad4d3beb41b69ff207fe06003a228109a2",
+    "@tailwindcss/vite": "^4.3.3",
+    "astro": "^7.3.2",
+    "react": "^19",
+    "react-dom": "^19",
+    "tailwindcss": "^4.3.3"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "@types/bun": "^1.4.0",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "typescript": "^5.9.0"
+  }
+}

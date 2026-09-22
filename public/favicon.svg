@@ -1,3 +1,7 @@
-<!-- A brand-colour square, no glyph: the mark is not drawn yet (design system 0002, semiotics).
-     Colour is brand-600 from the design system; regenerate when 0001 changes. -->
+<!-- Placeholder, not the sign (docs/decisions/0004-favicon.md). A brand-colour field with no
+     glyph: a symbol by convention only, chosen so this site does not invent a mark before the
+     design system draws the hand-and-phone gesture (design system 0002, semiotics). It fails
+     questions 1 to 3 of the semiotics test on purpose and passes only 4 (one colour, 16px).
+     Add no letter, check, phone or gate here. Replace with the mark, one colour, when the
+     package ships a Logo. Colour is brand-600 from the design system; regenerate when 0001 changes. -->
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" rx="7" fill="#007890"/></svg>

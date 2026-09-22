@@ -1,0 +1,7 @@
+[tools]
+bun = "1.4"
+node = "26"
+
+[tasks.check]
+description = "astro check, build, and run the test suite"
+run = "bun run check"

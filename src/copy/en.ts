@@ -86,7 +86,7 @@ export const en: Copy = {
   contact: {
     title: "Let's talk.",
     lede: "Do you produce events, sell tickets, or want to know when Usher opens? Write to us.",
-    email: "contato@eventolivre.com",
+    email: "olavostauros@eventolivre.com",
     cta: "Send an e-mail",
   },
   footer: {

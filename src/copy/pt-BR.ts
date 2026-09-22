@@ -86,7 +86,7 @@ export const ptBR: Copy = {
   contact: {
     title: "Vamos conversar.",
     lede: "Produz eventos, vende ingressos ou quer saber quando o Usher abre? Escreva pra gente.",
-    email: "contato@eventolivre.com",
+    email: "olavostauros@eventolivre.com",
     cta: "Enviar um e-mail",
   },
   footer: {

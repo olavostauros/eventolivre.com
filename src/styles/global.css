@@ -1,5 +1,9 @@
 /* The only stylesheet. Tokens and utilities come from the design system.
    Tailwind v4 skips node_modules when scanning for classes, so the package
-   is declared as a source; without that line its components lose their styles. */
+   is declared as a source; without that line its components lose their styles.
+   The Text primitive composes `type-${variant}` at runtime, which no scanner
+   can see, so every text style is safelisted here. Keep the list equal to
+   the design system's textStyles; tests/build.test.ts checks the output. */
 @import "@evento-livre/design-system/src/styles/index.css";
 @source "../../node_modules/@evento-livre/design-system/src";
+@source inline("type-{display-xl,display-lg,title,heading,subheading,body,body-sm,label,caption,overline,numeric,code}");

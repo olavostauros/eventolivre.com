@@ -36,6 +36,7 @@ README.md               status line and the three commands
 docs/
   decisions/            one file per decision (ADR style), numbered
   deploy.md             hosting evaluation and the owner's DNS runbook
+  og.svg                source of public/og.png
 .github/workflows/      deploy.yml: check, build, publish to Pages
 public/                 static files served as-is: robots, favicon, OG image
 src/

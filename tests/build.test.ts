@@ -3,6 +3,7 @@
 import { describe, expect, test } from "bun:test";
 import { existsSync } from "node:fs";
 import { join } from "node:path";
+import { textStyles } from "@evento-livre/design-system/src/tokens/typography.ts";
 
 const dist = join(import.meta.dir, "..", "dist");
 
@@ -40,7 +41,9 @@ describe("built pages", () => {
     expect(css).toBeDefined();
     const sheet = await html(css!.slice(1));
     expect(sheet).toContain("--color-canvas");
-    expect(sheet).toContain(".type-display-xl");
+    for (const style of Object.keys(textStyles)) {
+      expect(sheet, style).toContain(`.type-${style}{`);
+    }
     expect(sheet).toContain("Bricolage Grotesque");
   });
 });

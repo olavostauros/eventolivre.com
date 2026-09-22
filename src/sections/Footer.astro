@@ -10,12 +10,13 @@ interface Props {
 const { locale, copy } = Astro.props;
 const other = otherLocale(locale);
 const year = new Date().getFullYear();
+const legal = `© ${year} ${copy.footer.company}. ${copy.footer.rights} ${copy.footer.region}`;
 ---
 
 <footer class="border-t border-border bg-surface-sunken">
   <div class="mx-auto flex max-w-6xl flex-col gap-stack-md px-gutter py-inset-lg sm:flex-row sm:items-center sm:justify-between">
     <Wordmark text={copy.footer.company} />
-    <Text variant="caption" tone="subtle">© {year} {copy.footer.company}. {copy.footer.rights} {copy.footer.region}</Text>
+    <Text variant="caption" tone="subtle">{legal}</Text>
     <Link href={pathFor(other)} hrefLang={other} lang={other} className="type-caption">{copy.nav.otherLanguage}</Link>
   </div>
 </footer>

@@ -1,5 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import { copy, locales } from "../src/copy/index.ts";
+import { usherPtBR } from "../src/copy/usher.ts";
 
 type Tree = { readonly [key: string]: unknown };
 
@@ -28,6 +29,13 @@ describe("copy", () => {
       }
     });
   }
+
+  test("the Usher app's strings are all present", () => {
+    for (const [path, value] of leaves(usherPtBR)) {
+      expect(typeof value, path).toBe("string");
+      expect((value as string).trim().length, path).toBeGreaterThan(0);
+    }
+  });
 
   test("the contact address is the same in every language", () => {
     const addresses = new Set(locales.map((l) => copy[l].contact.email));

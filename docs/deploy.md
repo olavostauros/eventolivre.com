@@ -107,6 +107,38 @@ curl -sI https://www.eventolivre.com | head -3      # 301 to https://eventolivre
 gh api repos/olavostauros/eventolivre.com/pages --jq '{cname,https_enforced,status}'
 ```
 
+## The Usher PWA: the API URL
+
+Implements decision 0006. `/usher/` is a holding page until the build gets
+the events API's public URL. That URL is a repository **variable**, not a
+secret: it ends up in the HTML anyway.
+
+Owner, once the API has a public address and allows the origin
+`https://eventolivre.com`:
+
+```
+gh variable set USHER_API_URL --repo olavostauros/eventolivre.com --body "https://<public host>/"
+gh workflow run deploy.yml --repo olavostauros/eventolivre.com
+```
+
+Then check:
+
+```
+curl -s https://eventolivre.com/usher/ | grep -o 'connect-src[^;]*'     # names the API origin
+curl -sI https://eventolivre.com/usher/manifest.webmanifest | head -1   # 200
+curl -sI https://eventolivre.com/usher/sw.js | head -1                  # 200
+```
+
+To take the app down again, unset the variable and rerun the workflow:
+
+```
+gh variable delete USHER_API_URL --repo olavostauros/eventolivre.com
+```
+
+The value must be an `http(s)` origin, optionally with a path ending in
+`/`; anything else fails the build. A private address fails the exposure
+test. The development address never goes here (`CYBERSECURITY.md` §2).
+
 ## Rolling back
 
 Put the previous records back (apex `A` to the two `104.21.14.118` /

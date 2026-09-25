@@ -7,8 +7,9 @@ Read `MISSION.md` first. It says why this exists and who it serves.
 
 The public marketing site for Evento Livre: one static page, in Brazilian
 Portuguese with an English translation, deployed to GitHub Pages under the
-company's domain. It is the second consumer of
-`@evento-livre/design-system`, after Usher.
+company's domain, plus the Usher PWA mounted under `/usher/` (decision
+0006). It is the second consumer of `@evento-livre/design-system`, after
+Usher.
 
 ## Stack
 
@@ -41,14 +42,20 @@ docs/
 .github/workflows/      deploy.yml: check, build, publish to Pages
 public/                 static files served as-is: robots, favicon, OG image
 src/
-  copy/                 pt-BR.ts and en.ts, one shared type, identical keys
+  copy/                 pt-BR.ts and en.ts, one shared type, identical keys;
+                        usher.ts, the app's strings (pt-BR only)
   styles/global.css     the only stylesheet: imports the design system
   layouts/Base.astro    html lang, meta, hreflang, fonts, theme boot
+  layouts/App.astro     the Usher PWA shell: manifest, CSP, B2C register
   components/Page.astro composes the sections in reading order
   sections/             one section, one .astro file
   islands/              hydrated React components, one per folder
   islands/dsx.ts        re-exports of design-system components used here
-tests/                  bun tests: copy parity, built output, exposure
+  islands/Usher/        the app: one island, its API client, formatters, storage
+  pages/usher/          index.astro (the app, or a holding page) and the manifest
+public/usher/           service worker and manifest icons, served as-is
+tests/                  bun tests: copy parity, built output, exposure, the app
+tests/fixtures/         usher-api.ts, a stand-in shaped by the public API contract
 ```
 
 ## Working rules
@@ -69,6 +76,11 @@ tests/                  bun tests: copy parity, built output, exposure
 - **Registers are set on sections.** The producer section wraps its subtree
   in `data-register="b2b"`, the attendee section in `data-register="b2c"`.
   Nothing else sets a register.
+- **The PWA has one setting.** `PUBLIC_USHER_API_URL` at build time, the
+  public URL the owner announces, and nothing else. Unset, `/usher/` is a
+  holding page and no app ships. Develop against the stand-in:
+  `bun run tests/fixtures/usher-api.ts`, then
+  `PUBLIC_USHER_API_URL=http://localhost:8765 bun run dev`.
 - **Record decisions.** Anything that constrains future work gets a numbered
   file in `docs/decisions/`. Copy `0000-template.md`.
 - **Branch per change.** `site/<short-topic>`, kebab-case, from `main`.
@@ -116,7 +128,8 @@ The agent must not:
 
 ## Do not
 
-- Do not add a second page.
+- Do not add a second page. `/usher/` is an application mounted under a
+  path (decision 0006), not a page of the site; it has no sections.
 - Do not add a dependency without a decision record.
 - Do not put a sentence of copy in a component.
 - Do not invent brand assets.

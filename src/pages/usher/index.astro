@@ -1,0 +1,30 @@
+---
+/* /usher/: the Usher PWA, or a holding page while the API has no public
+   URL. The island and its bundle are rendered only when the URL is set, so
+   a build without it ships no PWA (CYBERSECURITY.md §4, decision 0006). */
+import { PUBLIC_USHER_API_URL } from "astro:env/client";
+import { usherPtBR as copy } from "../../copy/usher.ts";
+import App from "../../layouts/App.astro";
+import { Usher } from "../../islands/Usher/index.ts";
+import { Link, Text } from "../../islands/dsx.ts";
+
+const apiUrl = PUBLIC_USHER_API_URL?.trim() || undefined;
+if (apiUrl !== undefined && !/^https?:\/\/[^/?#]+\/?(?:[^?#]*\/)?$/.test(apiUrl)) {
+  throw new Error("PUBLIC_USHER_API_URL must be an http(s) origin, optionally with a path ending in /");
+}
+---
+
+<App copy={copy} apiUrl={apiUrl}>
+  {
+    apiUrl ? (
+      <Usher client:load apiUrl={apiUrl} copy={copy} />
+    ) : (
+      <section class="flex flex-col gap-stack-lg py-16" data-holding>
+        <Text variant="overline" tone="brand">{copy.meta.by}</Text>
+        <Text variant="title" as="h1" className="max-w-2xl text-balance">{copy.holding.title}</Text>
+        <Text variant="body" tone="muted" className="max-w-2xl">{copy.holding.body}</Text>
+        <Link href="/#usher" className="type-subheading">{copy.holding.back}</Link>
+      </section>
+    )
+  }
+</App>

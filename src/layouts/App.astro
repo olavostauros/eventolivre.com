@@ -1,0 +1,99 @@
+---
+/* Shell for the Usher PWA at /usher/. Separate from Base.astro because an
+   app is not a page of the site: no hreflang, its own manifest, a CSP, and
+   the B2C register on <html>. Must stay true (CYBERSECURITY.md §4): the
+   manifest and the worker are linked only when the API URL is set; the CSP
+   allows connections to that one origin and to nothing else; the inline
+   theme script reads the same localStorage key as ThemeToggle. The colours
+   in <meta> are read from the design system's tokens, never copied here. */
+import "../styles/global.css";
+import { palette } from "@evento-livre/design-system/src/tokens/colors.ts";
+import type { UsherCopy } from "../copy/usher.ts";
+import Wordmark from "../components/Wordmark.astro";
+import { ThemeToggle } from "../islands/ThemeToggle/index.ts";
+import { Link, Text } from "../islands/dsx.ts";
+
+interface Props {
+  readonly copy: UsherCopy;
+  readonly apiUrl: string | undefined;
+}
+const { copy, apiUrl } = Astro.props;
+const site = Astro.site ?? new URL("https://eventolivre.com");
+const canonical = new URL("/usher/", site);
+const home = new URL("/", site);
+const live = apiUrl !== undefined;
+const apiOrigin = live ? new URL(apiUrl).origin : undefined;
+const csp = [
+  "default-src 'self'",
+  "script-src 'self' 'unsafe-inline'",
+  "style-src 'self' 'unsafe-inline'",
+  "img-src 'self' https: http: data:",
+  "font-src 'self'",
+  `connect-src 'self'${apiOrigin ? ` ${apiOrigin}` : ""}`,
+  "object-src 'none'",
+  "base-uri 'self'",
+  "form-action 'self'",
+].join("; ");
+const title = `${copy.meta.title} · Evento Livre`;
+---
+
+<!doctype html>
+<html lang="pt-BR" data-register="b2c">
+  <head>
+    <meta charset="utf-8" />
+    {import.meta.env.PROD && <meta http-equiv="Content-Security-Policy" content={csp} />}
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{title}</title>
+    <meta name="description" content={copy.meta.description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    {live && <link rel="manifest" href="/usher/manifest.webmanifest" />}
+    {live && <link rel="apple-touch-icon" href="/usher/icon-192.png" />}
+    <meta name="application-name" content={copy.meta.appName} />
+    <meta name="apple-mobile-web-app-title" content={copy.meta.appName} />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="theme-color" content={palette.brand[600]} />
+    <meta name="color-scheme" content="light dark" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Evento Livre" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={copy.meta.description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={new URL("/og.png", site)} />
+    <meta property="og:locale" content="pt_BR" />
+    <script is:inline>
+      try {
+        const t = localStorage.getItem("theme");
+        if (t === "light" || t === "dark") document.documentElement.dataset.theme = t;
+      } catch {}
+    </script>
+  </head>
+  <body class="min-h-dvh bg-canvas text-fg font-sans antialiased">
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:rounded-control focus:bg-surface focus:px-inset-md focus:py-inset-sm focus:text-fg focus:outline-2 focus:outline-ring"
+      >{copy.nav.skipToContent}</a
+    >
+    <header class="sticky top-0 z-40 border-b border-border bg-canvas/90 backdrop-blur">
+      <nav class="mx-auto flex max-w-3xl items-center justify-between gap-stack-md px-gutter py-inset-sm" aria-label={title}>
+        <a href="/usher/" class="flex items-baseline gap-stack-sm rounded-xs outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring">
+          <Wordmark text={copy.meta.appName} />
+          <Text variant="caption" tone="muted" as="span">{copy.meta.by}</Text>
+        </a>
+        <div class="flex items-center gap-stack-sm">
+          <Link href={home.pathname} tone="inherit" underline="hover" className="type-label">{copy.nav.home}</Link>
+          <ThemeToggle client:idle label={copy.nav.themeLabel} toLight={copy.nav.themeToLight} toDark={copy.nav.themeToDark} />
+        </div>
+      </nav>
+    </header>
+    <main id="main" class="mx-auto flex max-w-3xl flex-col gap-stack-lg px-gutter py-inset-lg">
+      <slot />
+    </main>
+    <footer class="border-t border-border">
+      <div class="mx-auto flex max-w-3xl flex-col gap-stack-sm px-gutter py-inset-lg">
+        <Text variant="caption" tone="subtle">{copy.footer.sourcesNote}</Text>
+        <Text variant="caption" tone="subtle">{copy.footer.privacy}</Text>
+      </div>
+    </footer>
+  </body>
+</html>

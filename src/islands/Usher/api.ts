@@ -110,6 +110,7 @@ export interface EventQuery {
   readonly q?: string;
   readonly free?: boolean;
   readonly categories?: readonly string[];
+  readonly to?: string;
   readonly cursor?: string;
   readonly limit?: number;
 }
@@ -339,6 +340,7 @@ export function eventsUrl(base: string, query: EventQuery): string {
   if (q) p.set("q", q.split(/\s+/).slice(0, 6).join(" "));
   if (query.free === true) p.set("free", "true");
   for (const slug of (query.categories ?? []).slice(0, 10)) p.append("category", slug);
+  if (query.to) p.set("to", query.to);
   if (query.limit !== undefined) p.set("limit", String(query.limit));
   if (query.cursor) p.set("cursor", query.cursor);
   return url.toString();
@@ -354,6 +356,17 @@ export function citiesUrl(base: string): string {
 
 export function categoriesUrl(base: string): string {
   return new URL("v1/categories", withSlash(base)).toString();
+}
+
+/* The list must reach as far as a city's `events_upcoming` counts, or the
+   count promises events the list never shows. The API defaults `to` to 30
+   days and caps the span at 180 from `from` (default now); `to` as a date is
+   inclusive, so 180 days ahead overshoots and 179 is the widest it accepts. */
+const windowDays = 179;
+
+export function windowEnd(now: Date): string {
+  const end = new Date(now.getTime() + windowDays * 86_400_000);
+  return end.toISOString().slice(0, 10);
 }
 
 function withSlash(base: string): string {

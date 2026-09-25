@@ -109,3 +109,8 @@ export function formatVenue(venue: { readonly name: string | null; readonly city
   if (venue === null) return "";
   return [venue.name, venue.city].filter((part): part is string => typeof part === "string" && part.length > 0).join(" · ");
 }
+
+/** `{n}` filled into the singular or plural template. Portuguese has one plural form, so two templates are enough. */
+export function countText(n: number, one: string, many: string): string {
+  return (n === 1 ? one : many).replace("{n}", String(n));
+}

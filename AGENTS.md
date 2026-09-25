@@ -32,6 +32,7 @@ company's domain. It is the second consumer of
 ```
 MISSION.md              why, who, what
 AGENTS.md               this file
+CYBERSECURITY.md        what never appears here, rules for the agent, the PWA boundary
 README.md               status line and the three commands
 docs/
   decisions/            one file per decision (ADR style), numbered
@@ -47,7 +48,7 @@ src/
   sections/             one section, one .astro file
   islands/              hydrated React components, one per folder
   islands/dsx.ts        re-exports of design-system components used here
-tests/                  bun tests: copy parity, built output
+tests/                  bun tests: copy parity, built output, exposure
 ```
 
 ## Working rules
@@ -109,7 +110,9 @@ The agent must not:
 - change the design-system repository's visibility, settings or contents.
   What the site needs from the package is a proposal in that repository, in
   the owner's turn;
-- deploy from a checkout that has not passed `bun run check`.
+- deploy from a checkout that has not passed `bun run check`;
+- read anything from the private Usher repository except its public API
+  contract, or bring anything from it here (`CYBERSECURITY.md` §2, §3).
 
 ## Do not
 
@@ -117,11 +120,15 @@ The agent must not:
 - Do not add a dependency without a decision record.
 - Do not put a sentence of copy in a component.
 - Do not invent brand assets.
+- Do not say how Usher is built, where it runs or who works on it.
+  `CYBERSECURITY.md` §2 is the line; `tests/exposure.test.ts` enforces
+  part of it.
 - Do not create files outside the layout above without updating this file.
 
 ## Where to start
 
 1. Read `MISSION.md`.
-2. Read every file in `docs/decisions/`, then `docs/deploy.md`.
+2. Read every file in `docs/decisions/`, then `docs/deploy.md`, then
+   `CYBERSECURITY.md`.
 3. `bun install && bun run check`.
 4. Pick the smallest useful next step and do that.

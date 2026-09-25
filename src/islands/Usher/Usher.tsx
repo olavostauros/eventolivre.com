@@ -17,7 +17,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import type { ApiFailure, Category, City, EventItem, Place, UsherApi } from "./api.ts";
-import { createApi, failureOf } from "./api.ts";
+import { createApi, failureOf, windowEnd } from "./api.ts";
 import { Button, Text } from "../dsx.ts";
 import type { UsherCopy } from "../../copy/usher.ts";
 import { EventCard } from "./EventCard.tsx";
@@ -56,6 +56,8 @@ export function Usher({ apiUrl, copy }: UsherProps) {
   const [reload, setReload] = useState(0);
   const q = useDebounced(filters.q, 350);
   const categoryKey = filters.categories.join(",");
+  /* Fixed per tab so every page of one list shares the same window. */
+  const to = useMemo(() => windowEnd(new Date()), []);
 
   /* Browser-only setup: the remembered place, the hash route, the worker. */
   useEffect(() => {
@@ -99,7 +101,7 @@ export function Usher({ apiUrl, copy }: UsherProps) {
     const controller = new AbortController();
     setList((prev) => ({ ...prev, status: "loading", failure: null }));
     api
-      .listEvents({ place, q, free: filters.free, categories: filters.categories, limit: pageSize }, controller.signal)
+      .listEvents({ place, q, free: filters.free, categories: filters.categories, to, limit: pageSize }, controller.signal)
       .then((page) => setList({ status: "ready", events: page.data, cursor: page.nextCursor, failure: null }))
       .catch((error: unknown) => {
         if (controller.signal.aborted) return;
@@ -114,14 +116,14 @@ export function Usher({ apiUrl, copy }: UsherProps) {
     return () => controller.abort();
     // categoryKey stands in for the array so a new array with the same slugs does not refetch.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [api, restored, place, q, filters.free, categoryKey, reload]);
+  }, [api, restored, place, q, filters.free, categoryKey, to, reload]);
 
   const loadMore = () => {
     if (place === null || list.cursor === null || list.status === "more") return;
     const cursor = list.cursor;
     setList((prev) => ({ ...prev, status: "more", failure: null }));
     api
-      .listEvents({ place, q, free: filters.free, categories: filters.categories, limit: pageSize, cursor })
+      .listEvents({ place, q, free: filters.free, categories: filters.categories, to, limit: pageSize, cursor })
       .then((page) =>
         setList((prev) => ({
           status: "ready",

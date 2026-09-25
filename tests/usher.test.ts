@@ -9,6 +9,7 @@ import {
   createApi,
   eventUrl,
   eventsUrl,
+  windowEnd,
   failureOf,
   readEventDetail,
   readEventItem,
@@ -118,6 +119,11 @@ describe("api urls", () => {
     expect(url.searchParams.has("free")).toBe(false);
     expect(url.searchParams.get("cursor")).toBe("abc");
     expect(url.searchParams.has("lat")).toBe(false);
+  });
+  test("the window reaches as far as the API allows, so the list covers the city count", () => {
+    expect(windowEnd(new Date("2026-09-25T23:59:00Z"))).toBe("2027-03-23");
+    const url = new URL(eventsUrl(base, { place: { kind: "city", city: "vila-velha" }, to: "2027-03-23" }));
+    expect(url.searchParams.get("to")).toBe("2027-03-23");
   });
   test("a base with a path keeps it", () => {
     expect(eventUrl("https://api.example/usher", 5)).toBe("https://api.example/usher/v1/events/5");

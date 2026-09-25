@@ -8,9 +8,9 @@ Start with `MISSION.md`, then `AGENTS.md`, then `CYBERSECURITY.md`.
 
 Status: live at <https://eventolivre.com> (pt-BR) and <https://eventolivre.com/en/>,
 deployed from `main` by GitHub Actions. HTTPS is enforced; `www` redirects
-to the apex. `/usher/` is a holding page until the owner sets the
-`USHER_API_URL` repository variable to the events API's public URL
-(`docs/deploy.md`, "The Usher PWA").
+to the apex. `/usher/` is the Usher PWA, pointed at the events API's public URL
+through the `USHER_API_URL` repository variable (decision 0007,
+`docs/deploy.md`, "The Usher PWA").
 
 ```
 bun install

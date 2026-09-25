@@ -111,8 +111,9 @@ section keeps out.
 ## 4. The Usher PWA at `/usher/`
 
 Decision 0005 records that the PWA is served under `/usher/` on the apex
-(`www` redirects there), and that how its build gets into `dist/usher/` is
-still the owner's choice. Whichever way, these hold:
+(`www` redirects there). Decision 0006 builds it from this repository, in
+the same `astro build` as the page, behind `PUBLIC_USHER_API_URL`: unset,
+`/usher/` is a holding page and no app ships. These hold:
 
 - **A static artifact from a pinned, credential-free source.** The deploy
   workflow places built files under `dist/usher/` from a public repository

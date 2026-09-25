@@ -23,7 +23,11 @@ jobs:
         with:
           bun-version: "1.4"
       - run: bun install --frozen-lockfile
+      # USHER_API_URL is a repository variable the owner sets once the events
+      # API has a public URL (docs/deploy.md). Unset, /usher/ is a holding page.
       - run: bun run check
+        env:
+          PUBLIC_USHER_API_URL: ${{ vars.USHER_API_URL }}
       - uses: actions/configure-pages@v6
       - uses: actions/upload-pages-artifact@v5
         with:

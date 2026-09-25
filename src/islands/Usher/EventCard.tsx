@@ -6,7 +6,7 @@ import type { EventItem } from "./api.ts";
 import { Text } from "../dsx.ts";
 import { EventImage } from "./EventImage.tsx";
 import type { UsherCopy } from "../../copy/usher.ts";
-import { formatDistance, formatPriceRange, formatVenue, formatWhen, safeHttpUrl } from "./format.ts";
+import { countText, formatDistance, formatPriceRange, formatVenue, formatWhen, safeHttpUrl } from "./format.ts";
 import { eventHref } from "./route.ts";
 
 export interface EventCardProps {

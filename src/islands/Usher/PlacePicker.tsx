@@ -6,6 +6,7 @@ import { useState } from "react";
 import type { City, Place } from "./api.ts";
 import { Button, Text } from "../dsx.ts";
 import type { UsherCopy } from "../../copy/usher.ts";
+import { countText } from "./format.ts";
 import { clampRadius, defaultRadiusKm, radiusOptions } from "./storage.ts";
 
 export interface PlacePickerProps {
@@ -106,7 +107,7 @@ export function PlacePicker({ copy, cities, place, onChange }: PlacePickerProps)
               <option value="">{copy.choose}</option>
               {cities.map((city) => (
                 <option key={city.slug} value={city.slug}>
-                  {city.name} · {city.uf} ({city.eventsUpcoming} {copy.cityCount})
+                  {city.name} · {city.uf} ({countText(city.eventsUpcoming, copy.cityCountOne, copy.cityCount)})
                 </option>
               ))}
             </select>

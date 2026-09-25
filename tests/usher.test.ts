@@ -15,7 +15,7 @@ import {
   readEventPage,
   type UsherApi,
 } from "../src/islands/Usher/api.ts";
-import { formatDistance, formatEnd, formatMoney, formatPriceRange, formatVenue, formatWhen, isZero, safeHttpUrl } from "../src/islands/Usher/format.ts";
+import { countText, formatDistance, formatEnd, formatMoney, formatPriceRange, formatVenue, formatWhen, isZero, safeHttpUrl } from "../src/islands/Usher/format.ts";
 import { eventHref, parseRoute } from "../src/islands/Usher/route.ts";
 import { clampRadius, parsePlace } from "../src/islands/Usher/storage.ts";
 import { serve } from "./fixtures/usher-api.ts";
@@ -49,6 +49,12 @@ describe("format", () => {
     expect(formatWhen("2026-10-03T23:00:00Z", "Not/AZone")).not.toBe("");
     expect(formatEnd("2026-10-03T23:00:00Z", "2026-10-04T01:00:00Z", "America/Sao_Paulo")).toBe("22:00");
     expect(formatEnd("2026-10-03T23:00:00Z", "2026-10-04T03:00:00Z", "America/Sao_Paulo")).toContain("4 de out.");
+  });
+
+  test("counts pick the singular template at one", () => {
+    expect(countText(1, "{n} evento", "{n} eventos")).toBe("1 evento");
+    expect(countText(0, "{n} evento", "{n} eventos")).toBe("0 eventos");
+    expect(countText(46, "e mais {n} sessão", "e mais {n} sessões")).toBe("e mais 46 sessões");
   });
 
   test("distance and venue captions", () => {

@@ -33,6 +33,7 @@ export interface UsherCopy {
     readonly denied: string;
     readonly unavailable: string;
     readonly cityCount: string;
+    readonly cityCountOne: string;
   };
   readonly filters: {
     readonly search: string;
@@ -49,6 +50,7 @@ export interface UsherCopy {
     readonly end: string;
     readonly retry: string;
     readonly moreSessions: string;
+    readonly moreSessionsOne: string;
     readonly online: string;
     readonly free: string;
     readonly upTo: string;
@@ -116,7 +118,8 @@ export const usherPtBR: UsherCopy = {
     change: "Trocar",
     denied: "Sem permissão para usar sua posição. Escolha uma cidade.",
     unavailable: "Não deu para encontrar sua posição. Escolha uma cidade.",
-    cityCount: "eventos",
+    cityCount: "{n} eventos",
+    cityCountOne: "{n} evento",
   },
   filters: {
     search: "Buscar",
@@ -133,6 +136,7 @@ export const usherPtBR: UsherCopy = {
     end: "Isso é tudo por enquanto.",
     retry: "Tentar de novo",
     moreSessions: "e mais {n} sessões",
+    moreSessionsOne: "e mais {n} sessão",
     online: "Online",
     free: "Grátis",
     upTo: "até",
